@@ -1,0 +1,20 @@
+name: GitHub Actions
+on: [ push ]
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    strategy:
+      maxtix:
+        node-version: 18
+    steps:
+      - uses: actions/checkout@v3
+      - name: Staring Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+    with:
+      node-version: ${{ matrix.node-version }}
+      - name: install modules
+        run: yarn install
+      - name: build project
+        run: yarn build
+      - name: eslint code
+        run: yarn eslint:test
