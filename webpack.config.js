@@ -3,6 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const babelOptions = (preset) => {
   const options = {
@@ -53,7 +54,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader'],
       },
       {
         test: /\.svg$/,
