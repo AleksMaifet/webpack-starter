@@ -27,6 +27,7 @@ module.exports = {
   },
 
   plugins: [
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
     new Dotenv({
       systemvars: true,
