@@ -5,6 +5,8 @@ const Dotenv = require('dotenv-webpack');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const isProductionMode = process.env.NODE_ENV === 'production';
+
 const babelOptions = (preset) => {
   const options = {
     presets: ['@babel/preset-env'],
@@ -18,7 +20,7 @@ const babelOptions = (preset) => {
 };
 
 module.exports = {
-
+  mode: isProductionMode ? 'production' : 'development',
   entry: ['@babel/polyfill', path.resolve(__dirname, './src/index.tsx')],
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -27,7 +29,9 @@ module.exports = {
   },
 
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: isProductionMode ? '[name].[contenthash].css' : '[name].css',
+    }),
     new CleanWebpackPlugin(),
     new Dotenv({
       systemvars: true,
@@ -55,7 +59,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader'],
+        use: [
+          isProductionMode ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          'postcss-loader',
+        ],
       },
       {
         test: /\.svg$/,
