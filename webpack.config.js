@@ -20,7 +20,6 @@ const babelOptions = (preset) => {
 };
 
 module.exports = {
-  mode: isProductionMode ? 'production' : 'development',
   entry: ['@babel/polyfill', path.resolve(__dirname, './src/index.tsx')],
   output: {
     path: path.resolve(__dirname, 'build'),
